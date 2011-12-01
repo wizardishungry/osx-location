@@ -3,7 +3,6 @@
 // $ clang CoreLocationTest.m -framework cocoa -framework CoreLocation
 // $ ./a.out 
 // location service enabled
-// 2011-12-01 21:03:01.836 a.out[10214:903] ----------------------------------------------------
 // 2011-12-01 21:03:01.839 a.out[10214:903] latitude,logitude : 35.606647, 139.695538
 // 2011-12-01 21:03:01.842 a.out[10214:903] timestamp         : 2011-12-01 21:01:36 +0900
 // tmiz moo@tmiz.net
