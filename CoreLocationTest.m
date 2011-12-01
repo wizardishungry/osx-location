@@ -11,10 +11,8 @@
 #import <cocoa/cocoa.h>
 #import <CoreLocation/CoreLocation.h>
 
-CLLocationManager *manager;
-
 @interface NSObject(CB)
-- (void)logLocation:(CLLocation*)location;
+- (void)logLonLat:(CLLocation*)location;
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error;
