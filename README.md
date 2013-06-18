@@ -2,6 +2,9 @@ Using CoreLocation on Mac OS X with command-line
 ================================================
 
     $ make
+    $ ./location  --help
+    --count <number>         Wait for this many responses (default: 1).
+    --help                   Show this help.
     $ ./location
     location service enabled
     2011-12-01 21:03:01.839 a.out[10214:903] latitude,logitude : 35.606647, 140.695538
