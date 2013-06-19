@@ -10,6 +10,10 @@ Example:
     --debug                  Output helpful debugging info.
     --format <format>        Set the output format (default: key-value).
     --help                   Show this help.
+    Formats available:
+                  k = key-value
+                  j = Geo JSON
+                  s = SBS-1 ADS-B
 
 
     $ ./location --debug 

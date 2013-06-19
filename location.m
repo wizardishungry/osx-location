@@ -9,21 +9,21 @@
       QuietDebug ([location description]);
       QuietDebug (@"\n");
 
-			switch(st_format) {
-				case 'k':
-								printf(@"timestamp: %@\n", location.timestamp);
-								printf(@"latitude,longitude: %f,%f\n", coordinate.latitude, coordinate.longitude);
-								printf(@"altitude: %f\n", location.altitude);
-								printf(@"horizontalAccuracy: %f\n", location.horizontalAccuracy);
-								printf(@"verticalAccuracy: %f\n", location.verticalAccuracy);
-								printf(@"speed: %f\n", location.speed);
-								printf(@"course: %f\n", location.course);
-								break;
-				case 'j':
-								QuietError(@"unimplemented");
-				default:
-				  QuietError(@"Format %c invalid\n", st_format);
-			}
+      switch(st_format) {
+        case 'k':
+                printf(@"timestamp: %@\n", location.timestamp);
+                printf(@"latitude,longitude: %f,%f\n", coordinate.latitude, coordinate.longitude);
+                printf(@"altitude: %f\n", location.altitude);
+                printf(@"horizontalAccuracy: %f\n", location.horizontalAccuracy);
+                printf(@"verticalAccuracy: %f\n", location.verticalAccuracy);
+                printf(@"speed: %f\n", location.speed);
+                printf(@"course: %f\n", location.course);
+                break;
+        case 'j':
+                QuietError(@"unimplemented");
+        default:
+          QuietError(@"Format %c invalid\n", st_format);
+      }
 
       updateCount();
   }
@@ -37,7 +37,7 @@
 
   - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
       QuietError(@"Error: %@", error);
-			updateCount();
+      updateCount();
   }
 @end
 
@@ -47,11 +47,11 @@ void updateCount()
     exit(0); // todo finalize output
 }
 
-void QuietLog (FILE *stream, NSString *format, ...)
+int QuietLog (FILE *stream, NSString *format, ...)
 {
     if (format == nil) {
         fprintf(stream, "nil\n");
-        return;
+        return -1;
     }
     // Get a reference to the arguments that follow the format parameter
     va_list argList;
@@ -61,6 +61,7 @@ void QuietLog (FILE *stream, NSString *format, ...)
     fprintf(stream, "%s", [[s stringByReplacingOccurrencesOfString:@"%%" withString:@"%%%%"] UTF8String]);
     [s release];
     va_end(argList);
+    return 0;
 }
 
 void showHelp(void)
@@ -70,10 +71,10 @@ void showHelp(void)
 @"--debug                  Output helpful debugging info.\n"
 @"--format <format>        Set the output format (default: key-value).\n"
 @"--help                   Show this help.\n"
-@"\n",
-@"Formats available:\n",
-@"                  k, key-value\n",
-@"                  j, Geo JSON\n" //http://www.geojson.org
+@"Formats available:\n"
+@"                      k = key-value\n"
+@"                      j = Geo JSON\n" // http://www.geojson.org
+@"                      s = SBS-1 ADS-B\n" // Vroom!
     );
 }
 
@@ -97,8 +98,8 @@ void parseArgs(int argc, char*argv[])
       exit(0);
     } else {
       QuietError(
-				@"Unknown or not enough arguments for option '%s'.\n\n",
-				argv[j]);
+        @"Unknown or not enough arguments for option '%s'.\n\n",
+        argv[j]);
       showHelp();
       exit(1);
     }

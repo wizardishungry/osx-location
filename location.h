@@ -14,8 +14,8 @@ char st_format = 'k';
 @end
 
 // function declarations
-extern void QuietLog (FILE *, NSString *format, ...); // http://cocoaheads.byu.edu/wiki/different-nslog
+extern int QuietLog (FILE *, NSString *format, ...); // http://cocoaheads.byu.edu/wiki/different-nslog
 extern void updateCount();
-#define QuietDebug(...) QuietLog (stderr, __VA_ARGS__)
+#define QuietDebug(...) (st_debug && QuietLog (stderr, __VA_ARGS__))
 #define QuietError(...) QuietLog (stderr, __VA_ARGS__)
 #define printf(...) QuietLog(stdout, __VA_ARGS__)
