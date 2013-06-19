@@ -6,10 +6,25 @@
   - (void)logLonLat:(CLLocation*)location
   {
       CLLocationCoordinate2D coordinate = location.coordinate;
-      NSLog(@"latitude,logitude : %f, %f", coordinate.latitude, coordinate.longitude);
-      NSLog(@"timestamp         : %@", location.timestamp);
+      QuietDebug (@"%s\n", [location description]);
+
+			switch(st_format) {
+				case 'k':
+								printf(@"timestamp: %@\n", location.timestamp);
+								printf(@"latitude,longitude: %f,%f\n", coordinate.latitude, coordinate.longitude);
+								printf(@"altitude: %f\n", location.altitude);
+								printf(@"horizontalAccuracy: %f\n", location.horizontalAccuracy);
+								printf(@"verticalAccuracy: %f\n", location.verticalAccuracy);
+								printf(@"speed: %f\n", location.speed);
+								printf(@"course: %f\n", location.course);
+								break;
+				case 'j':
+								QuietError(@"unimplemented");
+				default:
+				  QuietError(@"Format %c invalid\n", st_format);
+			}
       if(++st_count>=opt_count)
-        exit(0);
+        exit(0); // todo finalize output
   }
 
   - (void)locationManager:(CLLocationManager *)manager
@@ -20,16 +35,35 @@
   }
 
   - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-      NSLog(@"Error: %@", error);
+      QuietError(@"Error: %@", error);
   }
 @end
 
+void QuietLog (FILE *stream, NSString *format, ...) {
+    if (format == nil) {
+        fprintf(stream, "nil\n");
+        return;
+    }
+    // Get a reference to the arguments that follow the format parameter
+    va_list argList;
+    va_start(argList, format);
+    // Perform format string argument substitution, reinstate %% escapes, then print
+    NSString *s = [[NSString alloc] initWithFormat:format arguments:argList];
+    fprintf(stream, "%s", [[s stringByReplacingOccurrencesOfString:@"%%" withString:@"%%%%"] UTF8String]);
+    [s release];
+    va_end(argList);
+}
 
 void showHelp(void) {
     printf(
-"--count <number>         Wait for this many responses (default: 1).\n"
-"--help                   Show this help.\n"
-"\n"
+@"--count <number>         Wait for this many responses (default: 1).\n"
+@"--debug                  Output helpful debugging info.\n"
+@"--format <format>        Set the output format (default: key-value).\n"
+@"--help                   Show this help.\n"
+@"\n",
+@"Formats available:\n",
+@"                  k, key-value\n",
+@"                  j, Geo JSON\n" //http://www.geojson.org
     );
 }
 
@@ -44,13 +78,17 @@ void parseArgs(int argc, char*argv[])
 
     if (!strcmp(argv[j],"--count") && more) {
       opt_count = atoi(argv[++j]);
+    } else if (!strcmp(argv[j],"--debug")) {
+      st_debug = 1;
+    } else if (!strcmp(argv[j],"--format") && more) {
+      st_format = *argv[++j];
     } else if (!strcmp(argv[j],"--help")) {
       showHelp();
       exit(0);
     } else {
-      fprintf(stderr,
-  "Unknown or not enough arguments for option '%s'.\n\n",
-  argv[j]);
+      QuietError(
+				@"Unknown or not enough arguments for option '%s'.\n\n",
+				argv[j]);
       showHelp();
       exit(1);
     }
@@ -63,13 +101,13 @@ int main(int ac,char *av[])
   id obj = [[NSObject alloc] init];
   id lm = nil;
   if ([CLLocationManager locationServicesEnabled]) {
-    printf("location service enabled\n");
+    QuietDebug(@"location service enabled\n");
     lm = [[CLLocationManager alloc] init];
     [lm setDelegate:obj];
     [lm startUpdatingLocation];
   }
   else {
-    printf("location service disabled\n");
+    QuietDebug(@"location service disabled\n");
     return 1;
   }
 
