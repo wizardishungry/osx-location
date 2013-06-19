@@ -5,9 +5,13 @@ osx-location is a utility for querying CoreLocation services on Mac OS X from th
 Example:
 
     $ make
-    $ ./location  --help
+    $ ./location --help
     --count <number>         Wait for this many responses (default: 1).
+    --debug                  Output helpful debugging info.
+    --format <format>        Set the output format (default: key-value).
     --help                   Show this help.
+
+
     $ ./location --debug 
     location service enabled
     <+40.696969,-73.420420> +/- 65.00m (speed -1.00 mps / course -1.00) @ 6/18/13 8:43:43 PM Eastern Daylight Time
