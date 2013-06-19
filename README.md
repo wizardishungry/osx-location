@@ -1,5 +1,8 @@
-Using CoreLocation on Mac OS X with command-line
-================================================
+osx-location
+============
+osx-location is a utility for querying CoreLocation services on Mac OS X from the command command-line.
+
+Example:
 
     $ make
     $ ./location  --help
@@ -17,4 +20,5 @@ Using CoreLocation on Mac OS X with command-line
 		course: -1.000000
 Credits
 -------
-Originally by moo@tmiz.net - https://gist.github.com/tmiz/1416248
+* Originally by moo@tmiz.net - https://gist.github.com/tmiz/1416248
+* Options parsing stolen from dump1090 - https://github.com/antirez/dump1090
