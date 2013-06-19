@@ -6,7 +6,8 @@
   - (void)logLonLat:(CLLocation*)location
   {
       CLLocationCoordinate2D coordinate = location.coordinate;
-      QuietDebug (@"%s\n", [location description]);
+      QuietDebug ([location description]);
+      QuietDebug (@"\n");
 
 			switch(st_format) {
 				case 'k':
@@ -23,8 +24,8 @@
 				default:
 				  QuietError(@"Format %c invalid\n", st_format);
 			}
-      if(++st_count>=opt_count)
-        exit(0); // todo finalize output
+
+      updateCount();
   }
 
   - (void)locationManager:(CLLocationManager *)manager
@@ -36,10 +37,18 @@
 
   - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
       QuietError(@"Error: %@", error);
+			updateCount();
   }
 @end
 
-void QuietLog (FILE *stream, NSString *format, ...) {
+void updateCount()
+{
+  if(++st_count>=opt_count)
+    exit(0); // todo finalize output
+}
+
+void QuietLog (FILE *stream, NSString *format, ...)
+{
     if (format == nil) {
         fprintf(stream, "nil\n");
         return;
@@ -54,7 +63,8 @@ void QuietLog (FILE *stream, NSString *format, ...) {
     va_end(argList);
 }
 
-void showHelp(void) {
+void showHelp(void)
+{
     printf(
 @"--count <number>         Wait for this many responses (default: 1).\n"
 @"--debug                  Output helpful debugging info.\n"

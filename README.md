@@ -7,10 +7,10 @@ Using CoreLocation on Mac OS X with command-line
     --help                   Show this help.
 		$ ./location --debug 
 		location service enabled
-		<+40.69968612,-73.91392976> +/- 65.00m (speed -1.00 mps / course -1.00) @ 6/18/13 8:43:43 PM Eastern Daylight Time
+		<+40.696969,-73.420420> +/- 65.00m (speed -1.00 mps / course -1.00) @ 6/18/13 8:43:43 PM Eastern Daylight Time
 		timestamp: 2013-06-19 00:43:43 +0000
-		latitude,longitude: 40.699686,-73.913930
-		altitude: 26.375000
+		latitude,longitude: 40.696969,-73.420420
+		altitude: 26.000000
 		horizontalAccuracy: 65.000000
 		verticalAccuracy: 10.000000
 		speed: -1.000000

@@ -1,9 +1,7 @@
 // Parsed cmd line options
 static int opt_count = 0;
 
-
 // Program state
-
 int st_count   = 0;
 int st_debug   = 0;
 char st_format = 'k';
@@ -17,6 +15,7 @@ char st_format = 'k';
 
 // function declarations
 extern void QuietLog (FILE *, NSString *format, ...); // http://cocoaheads.byu.edu/wiki/different-nslog
+extern void updateCount();
 #define QuietDebug(...) QuietLog (stderr, __VA_ARGS__)
 #define QuietError(...) QuietLog (stderr, __VA_ARGS__)
 #define printf(...) QuietLog(stdout, __VA_ARGS__)
